@@ -10,6 +10,13 @@
     <body class="not_logged">
     <div class="background"></div>
         <div id="app">
+            <div class="bolinhas">
+                <div class="bol" 
+                @click="scrollAtivo = bol.page"
+                v-for="bol in scrolls" :class="{active : bol.page == scrollAtivo}">
+                    <span>{{ bol.title }}</span>
+                </div>
+            </div>
             <div class="error">
                 <div class="erros" v-for="erro in erros">
                     {{erro.error}}
@@ -18,23 +25,29 @@
                     </div>
                 </div>
             </div>
-            <div class="form" :class="{not_center: register}">
-            <form v-on:submit.prevent="login">
-            <h1>Iniciar sessão</h1>
-                <input v-model="formLo.user" type="text" placeholder="Usuario">
-                <input v-model="formLo.password" type="password" placeholder="Senha">
-            <button>Entrar</button>
-            </form>
-            <button class="bnt_o" @click="register = true">Registrar</button>
-            </div>
-            <div class="form" :class="{not_center: !register}">
-                <form v-on:submit.prevent="registrar">
-                    <h1>Registrar</h1>
-                        <input v-model="formRe.user" type="text" placeholder="Usuario">
-                        <input v-model="formRe.password" type="password" placeholder="Senha">
-                    <button>Registrar</button>
+            <div class="scroll" :class="{scrollAtivo: scrollAtivo == 'account'}">
+                <h1 class="ov">Boas vindas ao Talker</h1>
+                <div class="form" :class="{not_center: register}">
+                <form v-on:submit.prevent="login">
+                <h1>Iniciar sessão</h1>
+                    <input v-model="formLo.user" type="text" placeholder="Usuario">
+                    <input v-model="formLo.password" type="password" placeholder="Senha">
+                <button>Entrar</button>
                 </form>
-                <button class="bnt_o" @click="register = false">Logar</button>
+                <button class="bnt_o" @click="register = true">Registrar</button>
+                </div>
+                <div class="form" :class="{not_center: !register}">
+                    <form v-on:submit.prevent="registrar">
+                        <h1>Registrar</h1>
+                            <input v-model="formRe.user" type="text" placeholder="Usuario">
+                            <input v-model="formRe.password" type="password" placeholder="Senha">
+                        <button>Registrar</button>
+                    </form>
+                    <button class="bnt_o" @click="register = false">Logar</button>
+                </div>
+            </div>
+            <div class="scroll" :class="{scrollAtivo: scrollAtivo == 'why'}">
+                <h1 class="ov">Porque usar?</h1>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

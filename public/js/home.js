@@ -13,7 +13,12 @@ const app = new Vue({
             "user": "",
             "password": ""
         },
-        erros: []
+        erros: [],
+        scrolls: [
+            {'page': 'account', 'title': 'Conta'},
+            {'page': 'why', 'title': 'Porque usar?'}
+        ],
+        scrollAtivo: 'account'
     },
     created(){
         this.socket = io('http://localhost:8000');
@@ -32,23 +37,26 @@ const app = new Vue({
             })
         },
         errosAlert(error){
-            const id = this.erros.length;
-                const erro = {id: id, "error": error, timer: 100}
-                this.erros.push(erro)
-                const timer = setInterval(() => {
-                const idT = this.erros.indexOf(erro)
-                this.erros[idT].timer -= 10
-                if(this.erros[idT].timer <= 11){
-                    clearInterval(timer);
-                    this.erros.splice(idT, 1);
-                }
-            }, 300);
+            if(this.erros.length < 3){
+                const id = this.erros.length;
+                    const erro = {id: id, "error": error, timer: 100}
+                    this.erros.push(erro)
+                    const timer = setInterval(() => {
+                    const idT = this.erros.indexOf(erro)
+                    this.erros[idT].timer -= 10
+                    if(this.erros[idT].timer <= 11){
+                        clearInterval(timer);
+                        this.erros.splice(idT, 1);
+                    }
+                }, 300);
+            }
         },
         login(){
             if(this.formLo.user.length < 2 || this.formLo.password < 2){
                 this.errosAlert("Preencha todos os campos");
             } else{
                 this.errosAlert("Aguarde um momento");
+                this.socket.emit('login', {'user': this.formLo.user, 'password': this.formLo.password})
             }
         },
         registrar(){
@@ -56,6 +64,7 @@ const app = new Vue({
                 this.errosAlert("Preencha todos os campos");
             } else{
                 this.errosAlert("Aguarde um momento");
+                this.socket.emit('register', {'user': this.formRe.user, 'password': this.formRe.password})
             }
         }
     }
