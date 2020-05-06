@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Talker</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body class="not_logged">
+    <div class="background"></div>
+        <div id="app">
+            <div class="error">
+                <div class="erros" v-for="erro in erros">
+                    {{erro.error}}
+                    <div class="progress">
+                        <div class="subprogress" :style="{width: `${erro.timer}%`}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form" :class="{not_center: register}">
+            <form v-on:submit.prevent="login">
+            <h1>Iniciar sessão</h1>
+                <input v-model="formLo.user" type="text" placeholder="Usuario">
+                <input v-model="formLo.password" type="password" placeholder="Senha">
+            <button>Entrar</button>
+            </form>
+            <button class="bnt_o" @click="register = true">Registrar</button>
+            </div>
+            <div class="form" :class="{not_center: !register}">
+                <form v-on:submit.prevent="registrar">
+                    <h1>Registrar</h1>
+                        <input v-model="formRe.user" type="text" placeholder="Usuario">
+                        <input v-model="formRe.password" type="password" placeholder="Senha">
+                    <button>Registrar</button>
+                </form>
+                <button class="bnt_o" @click="register = false">Logar</button>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+        <script src="js/home.js"></script>
+    </body>
+</html>
